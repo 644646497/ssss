@@ -1,4 +1,4 @@
-名字: Update NY Times RSS
+name: Update NYT RSS
 on:
   schedule:
     - cron: "0 */6 * * *"
@@ -10,12 +10,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: '3.11'}
-      - run: pip install feedparser feedgenerator requests
-      - run: python nytimes.py
-      - run: |
-          git config user.name "bot"
-          git config user.email "bot@github.com"
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install feedparser feedgenerator requests
+      - name: Run script
+        run: python nytimes.py
+      - name: Commit and push
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
           git add nytimes.xml
-          git commit -m "auto update"
+          git commit -m "Auto update NYT RSS"
           git push
